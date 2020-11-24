@@ -9,7 +9,7 @@ import routes from './routes/index';
 
 const app = express();
 //middlewares
-app.use(cors());
+app.use(cors({ origin: '*' }));
 
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.directory));

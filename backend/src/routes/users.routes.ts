@@ -30,7 +30,7 @@ usersRouter.post('/', async (request, response) => {
 		updated_at: user.updated_at,
 	};
 
-	// return response.status(201).json(userWithoutPassword);
+	return response.status(201).json(userWithoutPassword);
 });
 
 usersRouter.patch(
