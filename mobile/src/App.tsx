@@ -2,7 +2,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {StatusBar, View} from 'react-native';
 import 'react-native-gesture-handler';
-import AuthRoutes from './routes';
+import AppProvider from './hooks';
+import Routes from './routes';
 
 const App: React.FC = () => (
   <NavigationContainer>
@@ -11,11 +12,11 @@ const App: React.FC = () => (
       translucent
       backgroundColor="transparent"
     />
-    <AuthRoutes>
+    <AppProvider>
       <View style={{flex: 1, backgroundColor: '#312e38'}}>
-        <AuthRoutes />
+        <Routes />
       </View>
-    </AuthRoutes>
+    </AppProvider>
   </NavigationContainer>
 );
 

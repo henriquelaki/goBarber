@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import { FormHandles } from '@unform/core';
+import {FormHandles} from '@unform/core';
 import React, {useCallback, useRef} from 'react';
 import {
   Alert,
@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import logoImg from '../../assets/logo.png';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import {useAuth} from '../../hooks/auth';
 import getValidationErrors from '../../utils/getValidationErrors';
 import {
   Container,
@@ -25,7 +26,6 @@ import {
   Form,
   Title,
 } from './styles';
-import { useAuth } from '../../hooks/auth';
 
 interface SignInFormData {
   email: string;
@@ -38,9 +38,9 @@ const SignIn: React.FC = () => {
 
   const navigation = useNavigation();
 
-  const { signIn, user } = useAuth();
+  const {signIn, user} = useAuth();
 
-  console.log(user);
+  console.log();
 
   const handleSignIn = useCallback(
     async (data: SignInFormData) => {
@@ -60,9 +60,8 @@ const SignIn: React.FC = () => {
           email: data.email,
           password: data.password,
         });
-        
+
       } catch (err) {
-        console.log(err);
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
@@ -79,8 +78,7 @@ const SignIn: React.FC = () => {
         }
       }
     },
-    [signIn],
-  );
+    [signIn]);
 
   return (
     <>
