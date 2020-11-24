@@ -42,42 +42,45 @@ const SignIn: React.FC = () => {
 
   console.log(user);
 
-  const handleSignIn = useCallback(async (data: SignInFormData) => {
-    try {
-      formRef.current?.setErrors({});
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail é obrigatório')
-          .email('E-mail inválido'),
-        password: Yup.string().min(6, 'Senha maior ou igual a 6 caractéres'),
-      });
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+  const handleSignIn = useCallback(
+    async (data: SignInFormData) => {
+      try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail é obrigatório')
+            .email('E-mail inválido'),
+          password: Yup.string().min(6, 'Senha maior ou igual a 6 caractéres'),
+        });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      await signIn({
-        email: data.email,
-        password: data.password,
-      });
-
-    } catch (err) {
-      console.log(err)
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
-        formRef.current?.setErrors(errors);
-        const errorsAlertMessage = Object.values(errors).reduce(
-          (prev, curr) => `${prev}\n- ${curr}`,
-        );
-        Alert.alert('Erros no login:', `- ${errorsAlertMessage}`);
-        return;
-      } else {
-        Alert.alert(
-          'Erro no login',
-          'Ocorreu um erro ao fazer seu login. Tente novamente.',
-        );
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
+        
+      } catch (err) {
+        console.log(err);
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+          formRef.current?.setErrors(errors);
+          const errorsAlertMessage = Object.values(errors).reduce(
+            (prev, curr) => `${prev}\n- ${curr}`,
+          );
+          Alert.alert('Erros no login:', `- ${errorsAlertMessage}`);
+          return;
+        } else {
+          Alert.alert(
+            'Erro no login',
+            'Ocorreu um erro ao fazer seu login. Tente novamente.',
+          );
+        }
       }
-    }
-  }, []);
+    },
+    [signIn],
+  );
 
   return (
     <>
